@@ -14,19 +14,36 @@ public class vooCarga extends Voo {
 	}
 
 	public double calcularCombustivelNec() {
-		return 0;
+		return getDistanciakm() * 5.0 + (pesoCargaKg / 1000.0) * 2.0;
 	}
 
 	public double calcularCustoOp() {
-		return 0;
+		double custoBase = getDistanciakm() * 3.0;
+		double custoCarga = pesoCargaKg * 0.5;
+		return custoBase + custoCarga;
 	}
 
 	public boolean autorizarDecolagem() {
-		return false;
+		return isDocumentacaoReg()
+			&& cargaInspecionada
+			&& pesoCargaKg <= capacidadeMaxKg
+			&& getCombustivelDisp() >= calcularCombustivelNec();
 	}
 
 	public String getMotivoPend() {
-		return null;
+		if (!isDocumentacaoReg()) {
+			return "Documentação irregular";
+		}
+		if (!cargaInspecionada) {
+			return "Carga não inspecionada";
+		}
+		if (pesoCargaKg > capacidadeMaxKg) {
+			return "Peso da carga excede a capacidade máxima";
+		}
+		if (getCombustivelDisp() < calcularCombustivelNec()) {
+			return "Combustível insuficiente";
+		}
+		return "Sem pendências";
 	}
 
 }

@@ -11,15 +11,28 @@ public class vooDomestico extends Voo {
 	}
 
 	public double calcularCustoOp() {
-		return 0;
+		double custoBase = getDistanciakm() * 2.5;
+		double custoPassageiros = qtdPassageiros * 50.0;
+		return custoBase + custoPassageiros;
 	}
 
 	public boolean autorizarDecolagem() {
-		return false;
+		return isDocumentacaoReg()
+			&& getCombustivelDisp() >= calcularCombustivelNec()
+			&& qtdPassageiros <= capacidadeMax;
 	}
 
 	public String getMotivoPend() {
-		return null;
+		if (!isDocumentacaoReg()) {
+			return "Documentação irregular";
+		}
+		if (getCombustivelDisp() < calcularCombustivelNec()) {
+			return "Combustível insuficiente";
+		}
+		if (qtdPassageiros > capacidadeMax) {
+			return "Quantidade de passageiros excede a capacidade máxima";
+		}
+		return "Sem pendências";
 	}
 
 }

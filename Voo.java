@@ -17,38 +17,39 @@ public abstract class Voo implements autorizacao {
 	public Voo(String codigo, String origem, String destino, double distanciaKm, double combustivelDisp, boolean documentacaoReg, String tipo) {
 		this.codigo = codigo;
 		this.origem = origem;
+		this.destino = destino;
 		this.distanciaKm = distanciaKm;
 		this.combustivelDisp = combustivelDisp;
 		this.documentacaoReg = documentacaoReg;
-		
+		this.tipo = tipo;
 	}
 
 	public String getCodigo() {
-		return null;
+		return codigo;
 	}
 
 	public String getOrigem() {
-		return null;
+		return origem;
 	}
 
 	public String getDestino() {
-		return null;
+		return destino;
 	}
 
 	public double getDistanciakm() {
-		return 0;
+		return distanciaKm;
 	}
 
 	public double getCombustivelDisp() {
-		return 0;
+		return combustivelDisp;
 	}
 
 	public boolean isDocumentacaoReg() {
-		return false;
+		return documentacaoReg;
 	}
 
 	public double calcularCombustivelNec() {
-		return 0;
+		return distanciaKm * 3.0;
 	}
 
 	public abstract double calcularCustoOp();
@@ -62,16 +63,11 @@ public abstract class Voo implements autorizacao {
 	public abstract String getMotivoPend();
 
 	public void exibirResumo() {
-
+		System.out.printf("Voo %s [%s] : %s -> %s \nDistância: %.1f km \nCombustível necessário: %.1f L \nCusto operacional: R$ %.2f \nAutorizado: %s%n", codigo, tipo, origem, destino, distanciaKm, calcularCombustivelNec(), calcularCustoOp(), autorizarDecolagem() ? "Sim" : "Não (" + getMotivoPend() + ")"
+		);
 	}
 
-
-	/**
-	 * @see autorizacao#autorizaDecolagem()
-	 *  
-	 */
 	public boolean autorizaDecolagem() {
-		return false;
+		return this.autorizarDecolagem();
 	}
-
 }
